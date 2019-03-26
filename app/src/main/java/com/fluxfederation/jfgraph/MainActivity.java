@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         int padding = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2 - width / 2;
 
         RecyclerView graphView = findViewById(R.id.graphView);
-        graphView.setAdapter(new GraphViewAdapter());
+        graphView.setAdapter(new GraphViewAdapter(createGraphData()));
         graphView.setPadding(padding, 0, padding, 0);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         graphView.setLayoutManager(linearLayoutManager);
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     View oldView = linearLayoutManager.findViewByPosition(oldPosition);
-                    if(oldView != null) {
+                    if (oldView != null) {
                         oldView.findViewById(R.id.barSegment).setBackgroundColor(Color.parseColor("#BC206B"));
                     }
 
@@ -73,7 +74,44 @@ public class MainActivity extends AppCompatActivity {
         graphView.smoothScrollToPosition(48);
     }
 
+    private ArrayList<BarData> createGraphData() {
+        ArrayList<BarData> graphData = new ArrayList<>();
+        ArrayList<String> days = new ArrayList<>(Arrays.asList("S","M", "T", "W", "T", "F","S"));
+
+        for(int i = 0; i < 7*52; i++) {
+            int modulus = i%7;
+            boolean isWeekDay = false;
+            if(modulus == 0 ||modulus == 6) {
+                isWeekDay = true;
+            }
+            graphData.add(createBarData(days.get(modulus), isWeekDay));
+        }
+
+        return graphData;
+    }
+
+    private BarData createBarData(String label, boolean isWeekDay) {
+        final BarSegment segment = isWeekDay ? createWeekdaySegment() : createWeekendSegment();
+        return new BarData(new ArrayList<>(Arrays.asList(segment)),label);
+    }
+
+    private BarSegment createWeekdaySegment() {
+        return new BarSegment(new Random().nextInt(99) + 1,
+                Color.parseColor("#FC9FC3"));
+    }
+
+    private BarSegment createWeekendSegment() {
+        return new BarSegment(new Random().nextInt(99) + 1,
+                Color.parseColor("#BC206B"));
+    }
+
     private class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        ArrayList<BarData> graphData;
+
+        public GraphViewAdapter(ArrayList<BarData> graphData) {
+            this.graphData = graphData;
+        }
 
         @NonNull
         @Override
@@ -83,47 +121,21 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+            BarData barData = graphData.get(position);
+
             BarView view = (BarView) holder;
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, 0);
 
-            lp.weight = new Random().nextInt(99) + 1;
-
-            switch (position % 7) {
-                case 1:
-                    view.barLabel.setText("M");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#BC206B"));
-                    break;
-                case 2:
-                    view.barLabel.setText("T");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#BC206B"));
-                    break;
-                case 3:
-                    view.barLabel.setText("W");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#BC206B"));
-                    break;
-                case 4:
-                    view.barLabel.setText("T");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#BC206B"));
-                    break;
-                case 5:
-                    view.barLabel.setText("F");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#BC206B"));
-                    break;
-                case 6:
-                    view.barLabel.setText("S");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#FC9FC3"));
-                    break;
-                case 0:
-                    view.barLabel.setText("S");
-                    view.barSegment.setBackgroundColor(Color.parseColor("#FC9FC3"));
-                    break;
-            }
+            lp.weight = barData.barSegments.get(0).percentage;
+            view.barSegment.setBackgroundColor(barData.barSegments.get(0).colour);
             view.barSegment.setLayoutParams(lp);
+            view.barLabel.setText(barData.barLabel);
         }
 
         @Override
         public int getItemCount() {
-            return 49;
+            return graphData.size();
         }
     }
 
@@ -142,9 +154,11 @@ public class MainActivity extends AppCompatActivity {
 
     private class BarData {
         ArrayList<BarSegment> barSegments;
+        String barLabel;
 
-        public BarData(ArrayList<BarSegment> barSegments) {
+        public BarData(ArrayList<BarSegment> barSegments, String barLabel) {
             this.barSegments = barSegments;
+            this.barLabel =  barLabel;
         }
     }
 
