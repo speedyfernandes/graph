@@ -26,7 +26,7 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BarView(LayoutInflater.from(parent.getContext()).inflate(R.layout.graph_bar_view, null));
+        return new BarView(LayoutInflater.from(parent.getContext()).inflate(R.layout.graph_bar_view, parent, false));
     }
 
     @Override
