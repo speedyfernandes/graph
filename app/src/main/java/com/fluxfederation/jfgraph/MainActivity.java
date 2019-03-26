@@ -8,24 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
-    int oldPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +30,13 @@ public class MainActivity extends AppCompatActivity {
         int padding =  screenWidth / 2 - barWidth / 2;
 
         RecyclerView graphView = findViewById(R.id.graphView);
-        graphView.setAdapter(new GraphViewAdapter(createGraphData(), barWidth));
+        graphView.setAdapter(new GraphViewAdapter(this, createGraphData(), barWidth));
         graphView.setPadding(padding, 0, padding, 0);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         graphView.setLayoutManager(linearLayoutManager);
-        final SnapHelper snapHelper = new LinearSnapHelper();
+
+        SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(graphView);
 
         View graphSelectionBar = findViewById(R.id.graphSelectionBar);
@@ -53,24 +48,7 @@ public class MainActivity extends AppCompatActivity {
         graphSelectionBar.setLayoutParams(lp);
         labelSelectionBar.setLayoutParams(lp);
 
-        graphView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    View oldView = linearLayoutManager.findViewByPosition(oldPosition);
-                    BarData barData = ((GraphViewAdapter)recyclerView.getAdapter()).graphData.get(oldPosition);
-                    if (oldView != null) {
-                        oldView.findViewById(R.id.barSegment).setBackgroundColor(barData.barSegments.get(0).colour);
-                    }
-
-                    View centerView = snapHelper.findSnapView(linearLayoutManager);
-                    oldPosition = linearLayoutManager.getPosition(centerView);
-                    centerView.findViewById(R.id.barSegment).setBackgroundColor(Color.parseColor("#FB0D6A"));
-                }
-            }
-        });
+        graphView.addOnScrollListener(new GraphViewSelectionListener(linearLayoutManager, snapHelper));
 
         graphView.smoothScrollToPosition(48);
     }
