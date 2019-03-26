@@ -152,24 +152,4 @@ public class MainActivity extends AppCompatActivity {
             barLabel = itemView.findViewById(R.id.barLabel);
         }
     }
-
-    private class BarData {
-        ArrayList<BarSegment> barSegments;
-        String barLabel;
-
-        public BarData(ArrayList<BarSegment> barSegments, String barLabel) {
-            this.barSegments = barSegments;
-            this.barLabel =  barLabel;
-        }
-    }
-
-    private class BarSegment {
-        float percentage;
-        int colour;
-
-        public BarSegment(float percentage, int colour) {
-            this.percentage = percentage;
-            this.colour = colour;
-        }
-    }
 }
