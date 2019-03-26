@@ -92,17 +92,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private BarData createBarData(String label, boolean isWeekDay) {
-        final BarSegment segment = isWeekDay ? createWeekdaySegment() : createWeekendSegment();
-        return new BarData(new ArrayList<>(Arrays.asList(segment)),label);
+        //final BarSegment segment = isWeekDay ? createWeekdaySegment() : createWeekendSegment();
+        return new BarData(new ArrayList<>(Arrays.asList(createWeekdaySegment(), createWeekendSegment())),label);
     }
 
     private BarSegment createWeekdaySegment() {
-        return new BarSegment(new Random().nextInt(99) + 1,
+        return new BarSegment(new Random().nextInt(49) + 1,
                 Color.parseColor("#FC9FC3"));
     }
 
     private BarSegment createWeekendSegment() {
-        return new BarSegment(new Random().nextInt(99) + 1,
+        return new BarSegment(new Random().nextInt(49) + 1,
                 Color.parseColor("#BC206B"));
     }
 }

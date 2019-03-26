@@ -1,6 +1,8 @@
 package com.fluxfederation.jfgraph;
 
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -11,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    Context context;
     ArrayList<BarData> graphData;
     int barWidth;
 
-    public GraphViewAdapter(ArrayList<BarData> graphData, int barWidth) {
+    public GraphViewAdapter(Context context, ArrayList<BarData> graphData, int barWidth) {
+        this.context = context;
         this.graphData = graphData;
         this.barWidth = barWidth;
     }
@@ -31,11 +35,19 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         BarData barData = graphData.get(position);
 
         BarView view = (BarView) holder;
+
+        view.barContainer.removeAllViews();
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(barWidth, 0);
 
-        lp.weight = barData.barSegments.get(0).percentage;
-        view.barSegment.setBackgroundColor(barData.barSegments.get(0).colour);
-        view.barSegment.setLayoutParams(lp);
+        for(BarSegment barSegment : barData.barSegments) {
+            lp.weight = barSegment.percentage;
+            View barSegmentView = new View(context);
+            barSegmentView.setBackgroundColor(barSegment.colour);
+
+            view.barContainer.addView(barSegmentView, lp);
+        }
+
         view.barLabel.setText(barData.barLabel);
     }
 

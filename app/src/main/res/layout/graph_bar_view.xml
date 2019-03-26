@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/barContainer"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
@@ -15,12 +16,6 @@
         android:orientation="vertical"
         android:weightSum="100">
 
-        <View
-            android:id="@+id/barSegment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:background="@android:color/holo_red_light" />
     </LinearLayout>
 
     <TextView
