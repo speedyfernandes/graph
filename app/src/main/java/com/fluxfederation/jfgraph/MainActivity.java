@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         int padding = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2 - width / 2;
 
         RecyclerView graphView = findViewById(R.id.graphView);
-        graphView.setAdapter(new GraphViewAdapter(createGraphData()));
+        graphView.setAdapter(new GraphViewAdapter(createGraphData(), width));
         graphView.setPadding(padding, 0, padding, 0);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         graphView.setLayoutManager(linearLayoutManager);
@@ -104,52 +104,5 @@ public class MainActivity extends AppCompatActivity {
     private BarSegment createWeekendSegment() {
         return new BarSegment(new Random().nextInt(99) + 1,
                 Color.parseColor("#BC206B"));
-    }
-
-    private class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-        ArrayList<BarData> graphData;
-
-        public GraphViewAdapter(ArrayList<BarData> graphData) {
-            this.graphData = graphData;
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new BarView(LayoutInflater.from(parent.getContext()).inflate(R.layout.graph_bar_view, null));
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-            BarData barData = graphData.get(position);
-
-            BarView view = (BarView) holder;
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, 0);
-
-            lp.weight = barData.barSegments.get(0).percentage;
-            view.barSegment.setBackgroundColor(barData.barSegments.get(0).colour);
-            view.barSegment.setLayoutParams(lp);
-            view.barLabel.setText(barData.barLabel);
-        }
-
-        @Override
-        public int getItemCount() {
-            return graphData.size();
-        }
-    }
-
-    private class BarView extends RecyclerView.ViewHolder {
-
-        View barSegment;
-        TextView barLabel;
-
-        public BarView(@NonNull View itemView) {
-            super(itemView);
-
-            barSegment = itemView.findViewById(R.id.barSegment);
-            barLabel = itemView.findViewById(R.id.barLabel);
-        }
     }
 }
