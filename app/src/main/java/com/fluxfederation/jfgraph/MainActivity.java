@@ -25,7 +25,6 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    int width = 0;
     int oldPosition = 0;
 
     @Override
@@ -33,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        width = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 15;
-        int padding = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2 - width / 2;
+        int screenWidth = getWindow().getWindowManager().getDefaultDisplay().getWidth();
+        int barWidth = screenWidth / 15;
+        int padding =  screenWidth / 2 - barWidth / 2;
 
         RecyclerView graphView = findViewById(R.id.graphView);
-        graphView.setAdapter(new GraphViewAdapter(createGraphData(), width));
+        graphView.setAdapter(new GraphViewAdapter(createGraphData(), barWidth));
         graphView.setPadding(padding, 0, padding, 0);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         graphView.setLayoutManager(linearLayoutManager);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         View graphSelectionBar = findViewById(R.id.graphSelectionBar);
         View labelSelectionBar = findViewById(R.id.labelSelectionBar);
 
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(width, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(barWidth, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         graphSelectionBar.setLayoutParams(lp);
