@@ -59,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(newState == RecyclerView.SCROLL_STATE_IDLE) {
                     View oldView = linearLayoutManager.findViewByPosition(oldPosition);
-                    oldView.findViewById(R.id.barSegment).setBackgroundColor(Color.parseColor("#BC206B"));
+                    if(oldView != null) {
+                        oldView.findViewById(R.id.barSegment).setBackgroundColor(Color.parseColor("#BC206B"));
+                    }
 
                     View centerView = snapHelper.findSnapView(linearLayoutManager);
                     oldPosition = linearLayoutManager.getPosition(centerView);
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        graphView.smoothScrollToPosition(48);
     }
 
     private class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
