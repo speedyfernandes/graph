@@ -25,7 +25,7 @@ public class GraphViewSelectionListener extends RecyclerView.OnScrollListener {
     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
 
-        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE && recyclerView.getAdapter() != null) {
             View oldView = linearLayoutManager.findViewByPosition(oldPosition);
             BarData barData = ((GraphViewAdapter)recyclerView.getAdapter()).graphData.get(oldPosition);
 
@@ -34,8 +34,10 @@ public class GraphViewSelectionListener extends RecyclerView.OnScrollListener {
             }
 
             View centerView = snapHelper.findSnapView(linearLayoutManager);
-            oldPosition = linearLayoutManager.getPosition(centerView);
-            setSelectedGraphBars(centerView);
+            if(centerView != null) {
+                oldPosition = linearLayoutManager.getPosition(centerView);
+                setSelectedGraphBars(centerView);
+            }
         }
     }
 
