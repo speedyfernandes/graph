@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         graphView.setLayoutManager(linearLayoutManager);
         final SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(graphView);
-        //graphView.addItemDecoration(new BarEdgePadding(getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2));
 
         View graphSelectionBar = findViewById(R.id.graphSelectionBar);
         View labelSelectionBar = findViewById(R.id.labelSelectionBar);
@@ -137,41 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
             barSegment = itemView.findViewById(R.id.barSegment);
             barLabel = itemView.findViewById(R.id.barLabel);
-        }
-    }
-
-    private class BarEdgePadding extends RecyclerView.ItemDecoration {
-        private final int edgePadding;
-
-        public BarEdgePadding(int edgePadding) {
-            this.edgePadding = edgePadding;
-        }
-
-        @Override
-        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-
-            int itemCount = state.getItemCount();
-
-            final int itemPosition = parent.getChildAdapterPosition(view);
-
-            /*// no position, leave it alone
-            if (itemPosition == RecyclerView.NO_POSITION) {
-                return;
-            }*/
-
-            // first item
-            if (itemPosition == 0) {
-                outRect.set(edgePadding, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
-            }
-            // last item
-            else if (itemCount > 0 && itemPosition == itemCount - 1) {
-                outRect.set(view.getPaddingLeft(), view.getPaddingTop(), edgePadding, view.getPaddingBottom());
-            }
-            // every other item
-            else {
-                outRect.set(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
-            }
         }
     }
 }
