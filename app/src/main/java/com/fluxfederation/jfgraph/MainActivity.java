@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -136,6 +137,24 @@ public class MainActivity extends AppCompatActivity {
 
             barSegment = itemView.findViewById(R.id.barSegment);
             barLabel = itemView.findViewById(R.id.barLabel);
+        }
+    }
+
+    private class BarData {
+        ArrayList<BarSegment> barSegments;
+
+        public BarData(ArrayList<BarSegment> barSegments) {
+            this.barSegments = barSegments;
+        }
+    }
+
+    private class BarSegment {
+        float percentage;
+        int colour;
+
+        public BarSegment(float percentage, int colour) {
+            this.percentage = percentage;
+            this.colour = colour;
         }
     }
 }
