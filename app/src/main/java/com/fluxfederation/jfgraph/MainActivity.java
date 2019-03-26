@@ -60,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     View oldView = linearLayoutManager.findViewByPosition(oldPosition);
+                    BarData barData = ((GraphViewAdapter)recyclerView.getAdapter()).graphData.get(oldPosition);
                     if (oldView != null) {
-                        oldView.findViewById(R.id.barSegment).setBackgroundColor(Color.parseColor("#BC206B"));
+                        oldView.findViewById(R.id.barSegment).setBackgroundColor(barData.barSegments.get(0).colour);
                     }
 
                     View centerView = snapHelper.findSnapView(linearLayoutManager);
