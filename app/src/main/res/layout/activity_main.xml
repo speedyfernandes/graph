@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2c2c2c"
-    android:paddingTop="48dp"
+    android:clipChildren="false"
+    android:paddingTop="24dp"
     tools:context=".MainActivity">
 
     <include layout="@layout/graph_background" />
@@ -13,9 +14,17 @@
         android:id="@+id/graphView"
         android:layout_width="wrap_content"
         android:layout_height="400dp"
+        android:layout_marginTop="24dp"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
+        android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/graph_bar_view" />
+
+    <com.fluxfederation.jfgraph.GraphForeground
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical" />
 
 </FrameLayout>
