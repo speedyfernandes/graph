@@ -36,9 +36,11 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         BarView view = (BarView) holder;
 
-        view.barContainer.removeAllViews();
-
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(barWidth, 0);
+        lp.weight = 1;
+
+        view.barContainer.setLayoutParams(lp);
+        view.barContainer.removeAllViews();
 
         for(BarSegment barSegment : barData.barSegments) {
             lp.weight = barSegment.percentage;
