@@ -83,4 +83,20 @@ public class MainActivity extends AppCompatActivity {
         return new BarSegment(new Random().nextInt(49) + 1,
                 Color.parseColor("#BC206B"));
     }
+
+    /* TODO
+      Graph title
+      Graph theme light & dark
+      Text styling
+      Callback for selected item
+      Highlight selected day on / off
+      Colour of highlight
+      Number of bars
+      Bar colours (done)
+      Bar segments (done)
+      Bar labels (done)
+      Y Axis label calculations
+      Add items progressively
+      Annotations
+     */
 }
