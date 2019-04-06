@@ -48,7 +48,7 @@ public class GraphForeground extends View {
 
         linePaint = new Paint();
         linePaint.setColor(Color.WHITE);
-        linePaint.setStrokeWidth(1);
+        linePaint.setStrokeWidth(2);
         linePaint.setAlpha(25);
         linePaint.setStyle(Paint.Style.STROKE);
 
