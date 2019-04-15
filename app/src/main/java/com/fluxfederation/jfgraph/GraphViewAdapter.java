@@ -16,11 +16,16 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     Context context;
     ArrayList<BarData> graphData;
     int barWidth;
+    int padding;
 
-    public GraphViewAdapter(Context context, ArrayList<BarData> graphData, int barWidth) {
+    public GraphViewAdapter(Context context,
+                            ArrayList<BarData> graphData,
+                            int barWidth,
+                            int padding) {
         this.context = context;
         this.graphData = graphData;
         this.barWidth = barWidth;
+        this.padding = padding;
     }
 
     @NonNull
@@ -37,6 +42,7 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         BarView view = (BarView) holder;
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(barWidth, 0);
+        view.barContainer.setPadding(padding, 0, padding, 0);
         lp.weight = 1;
 
         view.barContainer.setLayoutParams(lp);

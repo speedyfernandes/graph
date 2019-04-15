@@ -14,11 +14,14 @@ public class GraphViewSelectionListener extends RecyclerView.OnScrollListener {
     LinearLayoutManager linearLayoutManager;
     SnapHelper snapHelper;
     int oldPosition = 0;
+    final String selectionColour;
 
     public GraphViewSelectionListener(LinearLayoutManager linearLayoutManager,
-                                      SnapHelper snapHelper) {
+                                      SnapHelper snapHelper,
+                                      String selectionColour) {
         this.linearLayoutManager = linearLayoutManager;
         this.snapHelper = snapHelper;
+        this.selectionColour = selectionColour;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class GraphViewSelectionListener extends RecyclerView.OnScrollListener {
         LinearLayout containerView = parentView.findViewById(R.id.barContainer);
         for(int i =0; i<containerView.getChildCount(); i++) {
             View barView = containerView.getChildAt(i);
-            barView.setBackgroundColor(Color.parseColor("#FB0D6A"));
+            barView.setBackgroundColor(Color.parseColor(selectionColour));
         }
     }
 }
