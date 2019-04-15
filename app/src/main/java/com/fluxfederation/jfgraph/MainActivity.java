@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             case HHR_GRAPH:
                 usePadding = false;
                 numberOfBars = 48;
-                barData.addAll(createHHRGraphData());
+                barData.addAll(HHRUtils.createHHRGraphData());
                 scrollToPosition = 0;
                 showDaySelector = false;
                 showBarSelector = false;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             case SOLAR_GRAPH:
                 numberOfBars = 15;
                 usePadding = true;
-                barData.addAll(createSolarGraphData());
+                barData.addAll(SolarUtils.createSolarGraphData());
                 scrollToPosition = 7 * 52 - 1;
                 showDaySelector = true;
                 showBarSelector = true;
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             case ST_GRAPH:
                 numberOfBars = 15;
                 usePadding = true;
-                barData.addAll(createSTGraphData());
+                barData.addAll(STUtils.createSTGraphData());
                 scrollToPosition = 7 * 52 - 1;
                 showDaySelector = true;
                 showBarSelector = true;
@@ -120,110 +120,4 @@ public class MainActivity extends AppCompatActivity {
             graphSelectionBar.setVisibility(View.INVISIBLE);
         }
     }
-
-    private ArrayList<BarData> createHHRGraphData() {
-        ArrayList<BarData> graphData = new ArrayList<>();
-
-        for (int i = 0; i < 48; i++) {
-            graphData.add(createHHRBarData());
-        }
-
-        return graphData;
-    }
-
-    private BarData createHHRBarData() {
-        return new BarData(new ArrayList<>(Collections.singletonList(createHHRSegment())), "");
-    }
-
-    private BarSegment createHHRSegment() {
-        return new BarSegment(new Random().nextInt(99) + 1,
-                Color.parseColor("#FF5492"));
-    }
-
-    private ArrayList<BarData> createSolarGraphData() {
-        ArrayList<BarData> graphData = new ArrayList<>();
-        ArrayList<String> days = new ArrayList<>(Arrays.asList("S", "M", "T", "W", "T", "F", "S"));
-
-        for (int i = 0; i < 7 * 52; i++) {
-            int modulus = i % 7;
-            boolean isWeekDay = true;
-            if (modulus == 0 || modulus == 6) {
-                isWeekDay = false;
-            }
-            graphData.add(createSolarBarData(days.get(modulus), isWeekDay));
-        }
-
-        return graphData;
-    }
-
-    private ArrayList<BarData> createSTGraphData() {
-        ArrayList<BarData> graphData = new ArrayList<>();
-        ArrayList<String> days = new ArrayList<>(Arrays.asList("S", "M", "T", "W", "T", "F", "S"));
-
-        for (int i = 0; i < 7 * 52; i++) {
-            int modulus = i % 7;
-            graphData.add(createSTBarData(days.get(modulus)));
-        }
-
-        return graphData;
-    }
-
-    private BarData createSTBarData(String label) {
-        int numberOfSegments = new Random().nextInt(4);
-        ArrayList<BarSegment> barSegments = new ArrayList<>();
-        for (int i = 0; i <= numberOfSegments; i++) {
-            switch (i) {
-                case 3:
-                    barSegments.add(createFirstSegment());
-                    break;
-                case 2:
-                    barSegments.add(createSecondSegment());
-                    break;
-                case 1:
-                    barSegments.add(createThirdSegment());
-                    break;
-                case 0:
-                    barSegments.add(createFourthSegment());
-                    break;
-            }
-        }
-
-        return new BarData(barSegments, label);
-    }
-
-    private BarSegment createFirstSegment() {
-        return new BarSegment(new Random().nextInt(24) + 1,
-                Color.parseColor("#0E5A7F"));
-    }
-
-    private BarSegment createSecondSegment() {
-        return new BarSegment(new Random().nextInt(24) + 1,
-                Color.parseColor("#1390ce"));
-    }
-
-    private BarSegment createThirdSegment() {
-        return new BarSegment(new Random().nextInt(24) + 1,
-                Color.parseColor("#37BDFF"));
-    }
-
-    private BarSegment createFourthSegment() {
-        return new BarSegment(new Random().nextInt(24) + 1,
-                Color.parseColor("#AFDFFA"));
-    }
-
-    private BarData createSolarBarData(String label, boolean isWeekDay) {
-        final BarSegment segment = isWeekDay ? createSolarWeekdaySegment() : createSolarWeekendSegment();
-        return new BarData(new ArrayList<>(Collections.singletonList(segment)), label);
-    }
-
-    private BarSegment createSolarWeekdaySegment() {
-        return new BarSegment(new Random().nextInt(49) + 1,
-                Color.parseColor("#FFCA27"));
-    }
-
-    private BarSegment createSolarWeekendSegment() {
-        return new BarSegment(new Random().nextInt(49) + 1,
-                Color.parseColor("#FDEEBF"));
-    }
-
 }
