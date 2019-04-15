@@ -1,22 +1,20 @@
 package com.fluxfederation.jfgraph;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,19 +82,4 @@ public class MainActivity extends AppCompatActivity {
                 Color.parseColor("#BC206B"));
     }
 
-    /* TODO
-      Graph title
-      Graph theme light & dark
-      Text styling
-      Callback for selected item
-      Highlight selected day on / off
-      Colour of highlight
-      Number of bars
-      Bar colours (done)
-      Bar segments (done)
-      Bar labels (done)
-      Y Axis label calculations
-      Add items progressively
-      Annotations
-     */
 }
