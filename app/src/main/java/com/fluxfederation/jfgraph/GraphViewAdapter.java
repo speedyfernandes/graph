@@ -42,7 +42,11 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         BarView view = (BarView) holder;
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(barWidth, 0);
-        view.barContainer.setPadding(padding, 0, padding, 0);
+        if(barData.barType != BarData.MISSING_BAR) {
+            view.barContainer.setPadding(padding, 0, padding, 0);
+        } else {
+            view.barContainer.setPadding(0, 0, 0, 0);
+        }
         lp.weight = 1;
 
         view.barContainer.setLayoutParams(lp);
@@ -51,7 +55,11 @@ public class GraphViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         for(BarSegment barSegment : barData.barSegments) {
             lp.weight = barSegment.percentage;
             View barSegmentView = new View(context);
-            barSegmentView.setBackgroundColor(barSegment.colour);
+            if(barData.barType == BarData.NORMAL_BAR) {
+                barSegmentView.setBackgroundColor(barSegment.colour);
+            } else {
+                barSegmentView.setBackgroundResource(R.drawable.background_no_data);
+            }
 
             view.barContainer.addView(barSegmentView, lp);
         }
